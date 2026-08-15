@@ -10,5 +10,8 @@ pub use quaternion::*;
 mod ray;
 pub use ray::*;
 
+mod traits;
+pub use traits::*;
+
 mod vector;
 pub use vector::*;
