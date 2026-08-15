@@ -98,3 +98,109 @@ impl<T: NumOps, const K: usize> Div<T> for Vector<T, K> {
         Self(core::array::from_fn(|i| self[i] / rhs))
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn approx(a: f64, b: f64) -> bool {
+        (a - b).abs() < 1e-9
+    }
+
+    #[test]
+    fn new_and_index() {
+        let v = Vector::new([1.0, 2.0, 3.0]);
+        assert_eq!(v[0], 1.0);
+        assert_eq!(v[1], 2.0);
+        assert_eq!(v[2], 3.0);
+    }
+
+    #[test]
+    fn index_mut_sets_value() {
+        let mut v = Vector::<f64, 2>::zero();
+        v[0] = 5.0;
+        v[1] = -2.0;
+        assert_eq!(v, Vector::new([5.0, -2.0]));
+    }
+
+    #[test]
+    fn zero_is_all_zero() {
+        let v = Vector::<f64, 4>::zero();
+        assert_eq!(v, Vector::new([0.0, 0.0, 0.0, 0.0]));
+    }
+
+    #[test]
+    fn length_matches_known_triangle() {
+        let v = Vector::new([3.0, 4.0]);
+        assert!(approx(v.length(), 5.0));
+    }
+
+    #[test]
+    fn length_of_zero_vector_is_zero() {
+        let v = Vector::<f64, 3>::zero();
+        assert_eq!(v.length(), 0.0);
+    }
+
+    #[test]
+    fn normal_has_unit_length_and_matches_known_direction() {
+        let v = Vector::new([3.0, 4.0]);
+        let n = v.normal().unwrap();
+        assert!(approx(n[0], 0.6));
+        assert!(approx(n[1], 0.8));
+        assert!(approx(n.length(), 1.0));
+    }
+
+    #[test]
+    fn normal_of_zero_vector_errs() {
+        let v = Vector::<f64, 3>::zero();
+        assert_eq!(v.normal(), Err(ZeroLengthVector));
+    }
+
+    #[test]
+    fn dot_product_known_value() {
+        let a = Vector::new([1.0, 2.0, 3.0]);
+        let b = Vector::new([4.0, 5.0, 6.0]);
+        assert_eq!(a.dot(&b), 32.0);
+    }
+
+    #[test]
+    fn dot_product_orthogonal_is_zero() {
+        let a = Vector::new([1.0, 0.0]);
+        let b = Vector::new([0.0, 1.0]);
+        assert_eq!(a.dot(&b), 0.0);
+    }
+
+    #[test]
+    fn from_point_copies_components() {
+        let p = Point::new([1.0, 2.0, 3.0]);
+        let v = Vector::from(p);
+        assert_eq!(v, Vector::new([1.0, 2.0, 3.0]));
+    }
+
+    #[test]
+    fn add_sums_components() {
+        let a = Vector::new([1.0, 2.0]);
+        let b = Vector::new([3.0, 4.0]);
+        assert_eq!(a + b, Vector::new([4.0, 6.0]));
+    }
+
+    #[test]
+    fn sub_subtracts_components() {
+        let a = Vector::new([5.0, 7.0]);
+        let b = Vector::new([2.0, 3.0]);
+        assert_eq!(a - b, Vector::new([3.0, 4.0]));
+        assert_ne!(a - b, a + b);
+    }
+
+    #[test]
+    fn mul_scales_components() {
+        let a = Vector::new([1.0, -2.0, 3.0]);
+        assert_eq!(a * 2.0, Vector::new([2.0, -4.0, 6.0]));
+    }
+
+    #[test]
+    fn div_scales_components() {
+        let a = Vector::new([2.0, -4.0, 6.0]);
+        assert_eq!(a / 2.0, Vector::new([1.0, -2.0, 3.0]));
+    }
+}
