@@ -1,7 +1,7 @@
-use core::ops::{Add, Sub, Mul, Div, Index, IndexMut};
 use super::NumOps;
-use super::Vector;
 use super::Point;
+use super::Vector;
+use core::ops::{Add, Div, Index, IndexMut, Mul, Sub};
 
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
@@ -109,7 +109,9 @@ impl<T: NumOps, const M: usize, const N: usize> Mul<Point<T, N>> for Matrix<T, M
     }
 }
 
-impl<T: NumOps, const M: usize, const N: usize, const P: usize> Mul<Matrix<T, N, P>> for Matrix<T, M, N> {
+impl<T: NumOps, const M: usize, const N: usize, const P: usize> Mul<Matrix<T, N, P>>
+    for Matrix<T, M, N>
+{
     type Output = Matrix<T, M, P>;
     fn mul(self, rhs: Matrix<T, N, P>) -> Self::Output {
         let rows: [Vector<T, N>; M] = core::array::from_fn(|m| self.row(m));

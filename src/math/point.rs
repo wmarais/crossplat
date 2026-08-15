@@ -1,4 +1,4 @@
-use core::ops::{Add, Sub, Mul, Div, Index, IndexMut};
+use core::ops::{Add, Div, Index, IndexMut, Mul, Sub};
 
 use super::NumOps;
 use super::Vector;
@@ -8,7 +8,7 @@ use super::Vector;
 pub struct Point<T: NumOps, const K: usize>([T; K]);
 
 impl<T: NumOps, const K: usize> Point<T, K> {
-    pub fn new(values: [T;K]) -> Self {
+    pub fn new(values: [T; K]) -> Self {
         Self(values)
     }
 }
@@ -116,4 +116,3 @@ mod tests {
         assert_eq!(p / 3.0, Point::new([2.0, -3.0]));
     }
 }
-

@@ -1,13 +1,17 @@
-use std::ops::{Add, Sub , Mul, Div};
+use std::ops::{Add, Div, Mul, Sub};
 
-pub trait NumOps: Sized + Copy + Clone + 
-    Add<Output = Self> + 
-    Sub<Output = Self> + 
-    Mul<Output = Self> + 
-    Div<Output = Self> +
-    PartialEq {
-        fn sqrt(&self) -> Self;
-        fn zero() -> Self;
+pub trait NumOps:
+    Sized
+    + Copy
+    + Clone
+    + Add<Output = Self>
+    + Sub<Output = Self>
+    + Mul<Output = Self>
+    + Div<Output = Self>
+    + PartialEq
+{
+    fn sqrt(&self) -> Self;
+    fn zero() -> Self;
 }
 
 impl NumOps for f32 {
@@ -29,5 +33,3 @@ impl NumOps for f64 {
         0f64
     }
 }
-
-

@@ -1,4 +1,4 @@
-use core::ops::{Add, Sub, Mul, Div, Index, IndexMut};
+use core::ops::{Add, Div, Index, IndexMut, Mul, Sub};
 
 use super::NumOps;
 use super::Point;
@@ -11,7 +11,7 @@ pub struct Vector<T: NumOps, const K: usize>([T; K]);
 pub struct ZeroLengthVector;
 
 impl<T: NumOps, const K: usize> Vector<T, K> {
-    pub fn new(values: [T;K]) -> Self {
+    pub fn new(values: [T; K]) -> Self {
         Self(values)
     }
 
@@ -31,9 +31,8 @@ impl<T: NumOps, const K: usize> Vector<T, K> {
         let len = self.length();
         if len == T::zero() {
             Err(ZeroLengthVector)
-        }
-        else {
-            Ok(*self/len)
+        } else {
+            Ok(*self / len)
         }
     }
 
@@ -44,7 +43,6 @@ impl<T: NumOps, const K: usize> Vector<T, K> {
         }
         result
     }
-
 }
 
 impl<T: NumOps, const K: usize> From<Point<T, K>> for Vector<T, K> {
