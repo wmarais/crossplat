@@ -6,13 +6,24 @@ authors = ["Wynand Marais"]
 license = "MIT"
 readme = "README.md"
 
+description = "Basic functions for cross platform development."
+
 # https://doc.rust-lang.org/cargo/reference/manifest.html#the-keywords-field
 #keywords = 
 
 # https://crates.io/category_slugs
 # categories = ["gui", "mathematics", "multimedia"]
 
+
+[dependencies]
+# Dependencies
+
+[dev-dependencies]
+# Test/benchmark dependencies
+
 [features]
 default = []
+
+
 
 
