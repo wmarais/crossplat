@@ -1,0 +1,18 @@
+[package]
+name = "crossplat"
+version = "0.0.1"
+edition = "2021"
+authors = ["Wynand Marais"]
+license = "MIT"
+readme = "README.md"
+
+# https://doc.rust-lang.org/cargo/reference/manifest.html#the-keywords-field
+#keywords = 
+
+# https://crates.io/category_slugs
+# categories = ["gui", "mathematics", "multimedia"]
+
+[features]
+default = []
+
+
