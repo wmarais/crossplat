@@ -1,7 +1,7 @@
-use core::ops::{Index, IndexMut};
-use super::NumOps;
 use super::Matrix;
+use super::NumOps;
 use super::Vector;
+use core::ops::{Index, IndexMut};
 
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone)]
@@ -45,9 +45,24 @@ impl<T: NumOps> Quaternion<T> {
         let wz = w * z;
 
         Matrix::new([
-            Vector::new([one - two * (yy + zz), two * (xy - wz), two * (xz + wy), T::zero()]),
-            Vector::new([two * (xy + wz), one - two * (xx + zz), two * (yz - wx), T::zero()]),
-            Vector::new([two * (xz - wy), two * (yz + wx), one - two * (xx + yy), T::zero()]),
+            Vector::new([
+                one - two * (yy + zz),
+                two * (xy - wz),
+                two * (xz + wy),
+                T::zero(),
+            ]),
+            Vector::new([
+                two * (xy + wz),
+                one - two * (xx + zz),
+                two * (yz - wx),
+                T::zero(),
+            ]),
+            Vector::new([
+                two * (xz - wy),
+                two * (yz + wx),
+                one - two * (xx + yy),
+                T::zero(),
+            ]),
             Vector::new([T::zero(), T::zero(), T::zero(), one]),
         ])
     }
@@ -65,4 +80,3 @@ impl<T: NumOps> IndexMut<usize> for Quaternion<T> {
         &mut self.0[index]
     }
 }
-
