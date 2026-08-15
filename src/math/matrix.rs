@@ -25,6 +25,43 @@ impl<T: NumOps, const M: usize, const N: usize> Matrix<T, M, N> {
     }
 }
 
+impl<T: NumOps, const M: usize> Matrix<T, M, M> {
+    pub fn determinant(&self) -> T {
+        let mut mat = *self;
+        let mut swaps: usize = 0;
+
+        for k in 0..M {
+            if mat[k][k] == T::zero() {
+                match (k + 1..M).find(|&i| mat[i][k] != T::zero()) {
+                    Some(i) => {
+                        let tmp = mat[k];
+                        mat[k] = mat[i];
+                        mat[i] = tmp;
+                        swaps += 1;
+                    }
+                    None => return T::zero(),
+                }
+            }
+
+            for i in (k + 1)..M {
+                let factor = mat[i][k] / mat[k][k];
+                mat[i] = mat[i] - mat[k] * factor;
+            }
+        }
+
+        let mut det = mat[0][0];
+        for k in 1..M {
+            det = det * mat[k][k];
+        }
+
+        if swaps % 2 == 1 {
+            det = T::zero() - det;
+        }
+
+        det
+    }
+}
+
 impl<T: NumOps, const M: usize, const N: usize> Index<usize> for Matrix<T, M, N> {
     type Output = Vector<T, N>;
     fn index(&self, index: usize) -> &Self::Output {
@@ -35,6 +72,13 @@ impl<T: NumOps, const M: usize, const N: usize> Index<usize> for Matrix<T, M, N>
 impl<T: NumOps, const M: usize, const N: usize> IndexMut<usize> for Matrix<T, M, N> {
     fn index_mut(&mut self, index: usize) -> &mut Self::Output {
         &mut self.0[index]
+    }
+}
+
+impl<T: NumOps, const M: usize, const N: usize> Mul<T> for Matrix<T, M, N> {
+    type Output = Self;
+    fn mul(self, rhs: T) -> Self::Output {
+        Self(core::array::from_fn(|m| self[m] * rhs))
     }
 }
 
@@ -76,5 +120,23 @@ impl<T: NumOps, const M: usize, const N: usize, const P: usize> Mul<Matrix<T, N,
     }
 }
 
+impl<T: NumOps, const M: usize, const N: usize> Div<T> for Matrix<T, M, N> {
+    type Output = Self;
+    fn div(self, rhs: T) -> Self::Output {
+        Self(core::array::from_fn(|m| self[m] / rhs))
+    }
+}
 
+impl<T: NumOps, const M: usize, const N: usize> Add<Matrix<T, M, N>> for Matrix<T, M, N> {
+    type Output = Self;
+    fn add(self, rhs: Matrix<T, M, N>) -> Self::Output {
+        Self(core::array::from_fn(|m| self[m] + rhs[m]))
+    }
+}
 
+impl<T: NumOps, const M: usize, const N: usize> Sub<Matrix<T, M, N>> for Matrix<T, M, N> {
+    type Output = Self;
+    fn sub(self, rhs: Matrix<T, M, N>) -> Self::Output {
+        Self(core::array::from_fn(|m| self[m] - rhs[m]))
+    }
+}
