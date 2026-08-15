@@ -57,7 +57,6 @@ impl<T: NumOps, const K: usize> From<Point<T, K>> for Vector<T, K> {
     }
 }
 
-
 impl<T: NumOps, const K: usize> Index<usize> for Vector<T, K> {
     type Output = T;
     fn index(&self, index: usize) -> &Self::Output {
