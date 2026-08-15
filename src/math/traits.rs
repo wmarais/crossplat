@@ -4,7 +4,8 @@ pub trait NumOps: Sized + Copy + Clone +
     Add<Output = Self> + 
     Sub<Output = Self> + 
     Mul<Output = Self> + 
-    Div<Output = Self> {
+    Div<Output = Self> +
+    PartialEq {
         fn sqrt(&self) -> Self;
         fn zero() -> Self;
 }
