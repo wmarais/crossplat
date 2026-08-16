@@ -1,11 +1,11 @@
 use crate::mathematics::traits::Number;
-use crate::mathematics::linear_algebra::Plane;
+use crate::mathematics::geometry::{Circle, Plane, Ray, Rectangle};
 
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-pub struct Frustum<T: Number, const N: usize>([Plane<T, N>; 6]);
+pub struct PyramidFrustum<T: Number, const N: usize>([Plane<T, N>; 6]);
 
-impl<T: Number, const N: usize> Frustum<T, N> {
+impl<T: Number, const N: usize> PyramidFrustum<T, N> {
     const IDX_NEAR: usize = 0;
     const IDX_FAR: usize = 1;
     const IDX_LEFT: usize = 2;
@@ -36,5 +36,20 @@ impl<T: Number, const N: usize> Frustum<T, N> {
     pub fn bottom(&self) -> &Plane<T, N> {
         &self.0[Self::IDX_BOTTOM]
     }
+
+    // /// Determine if the ray intersect the frustum or not.
+    // pub fn intersect_ray(&self, ray: &Ray<T,N>) -> bool {
+
+    // }
+
+    // /// Determine if the ray intersects the frustum or not.
+    // pub fn intersect_rectangle(&self, rect: &Rectangle<T, N>) -> bool {
+
+    // }
+
+    // pub fn intersect_circle(&self, circle: &Circle<T, N>) -> bool {
+        
+    // }
+
 
 }

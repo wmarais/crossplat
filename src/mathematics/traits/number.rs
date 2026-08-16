@@ -19,6 +19,7 @@ pub trait Number:
     fn cos(&self) -> Self;
     fn zero() -> Self;
     fn one() -> Self;
+    fn pi() -> Self;
 }
 
 impl Number for f32 {
@@ -41,6 +42,10 @@ impl Number for f32 {
     fn one() -> Self {
         1f32
     }
+
+    fn pi() -> Self {
+        core::f32::consts::PI
+    }
 }
 
 impl Number for f64 {
@@ -62,5 +67,9 @@ impl Number for f64 {
 
     fn one() -> Self {
         1f64
+    }
+
+    fn pi() -> Self {
+        core::f64::consts::PI
     }
 }

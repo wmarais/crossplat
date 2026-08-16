@@ -1,5 +1,5 @@
 use crate::mathematics::traits::Number;
-use crate::mathematics::linear_algebra::{Point, Ray};
+use crate::mathematics::geometry::{Point, Ray};
 
 /// An axis-aligned N-Dimensional rectangle (bounding box), packed as an array where the
 /// first element is the minimum corner and the second element is the maximum corner.

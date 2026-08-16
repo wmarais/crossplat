@@ -1,13 +1,13 @@
 use crate::mathematics::traits::Number;
-use crate::mathematics::linear_algebra::{Point, Ray};
+use crate::mathematics::geometry::{Point, Ray};
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-pub struct Circle<T: Number, const K: usize> {
-    centre: Point<T, K>,
+pub struct Circle<T: Number, const N: usize> {
+    centre: Point<T, N>,
     radius: T,
 }
 
-impl<T: Number, const K: usize> Circle<T, K> {
+impl<T: Number, const N: usize> Circle<T, N> {
     /// Collision detection function between a ray and a circle.
     /// Calculate the intersection of a N-Dimensional Ray with an N-Dimensional circle. The
     /// function returns either:
@@ -17,7 +17,7 @@ impl<T: Number, const K: usize> Circle<T, K> {
     /// and T2 is the second intersection.
     /// If the value (either T1 or T2) are negative, it is behind the start of the ray, and if the
     /// value is positive, it is in front of the start of the ray.
-    pub fn intersect_ray(&self, ray: &Ray<T, K>) -> (Option<T>, Option<T>) {
+    pub fn intersect_ray(&self, ray: &Ray<T, N>) -> (Option<T>, Option<T>) {
         let oc = ray.origin() - self.centre;
         let dir = ray.direction();
 

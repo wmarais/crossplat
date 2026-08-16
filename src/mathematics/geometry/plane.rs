@@ -1,21 +1,26 @@
 use crate::mathematics::traits::Number;
-use crate::mathematics::linear_algebra::{Ray, Vector};
+use crate::mathematics::geometry::Ray;
+use crate::mathematics::linear_algebra::Vector;
 
-/// The plane definition is packed as a tuple, where the first element of the tuple is
+/// The plane definition is pacNed as a tuple, where the first element of the tuple is
 /// the normal of the plane, and the second element of the tuple is the distance from
 /// the origin.
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-pub struct Plane<T: Number, const K: usize>((Vector<T, K>, T));
+pub struct Plane<T: Number, const N: usize>((Vector<T, N>, T));
 
-impl<T: Number, const K: usize> Plane<T, K> {
+impl<T: Number, const N: usize> Plane<T, N> {
+    pub fn new(normal: Vector<T, N>, distance: T) -> Self {
+        Self((normal, distance))
+    }
+
     /// Calculate where a ray intersects the plane. The function returns either:
     /// `Some(T)` if there is a single point of intersection. If the value is negative, it
     /// is behind the start of the ray, and if the value is positive, it is in front of the
     /// start of the ray.
     /// `None` if the ray is co-planar (lies flat on the plane) or does not intersect the
     /// plane at all (i.e. it is parallel to the plane).
-    pub fn intersect_ray(&self, ray: &Ray<T, K>) -> Option<T> {
+    pub fn intersect_ray(&self, ray: &Ray<T, N>) -> Option<T> {
         let (normal, distance) = self.0;
         let denom = normal.dot(&ray.direction());
 

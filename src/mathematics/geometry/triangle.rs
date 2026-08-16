@@ -1,5 +1,5 @@
 use crate::mathematics::traits::Number;
-use crate::mathematics::linear_algebra::{Point, Ray};
+use crate::mathematics::geometry::{Point, Ray};
 
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
