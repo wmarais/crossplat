@@ -9,6 +9,7 @@ pub trait NumOps:
     + Mul<Output = Self>
     + Div<Output = Self>
     + PartialEq
+    + PartialOrd
 {
     fn sqrt(&self) -> Self;
     fn sin(&self) -> Self;

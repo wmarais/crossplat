@@ -9,6 +9,10 @@ pub struct Ray<T: NumOps, const K: usize> {
 }
 
 impl<T: NumOps, const K: usize> Ray<T, K> {
+    pub fn new(origin: Point<T, K>, direction: Vector<T, K>) -> Self {
+        Self { origin, direction }
+    }
+
     pub fn origin(&self) -> Point<T, K> {
         self.origin
     }
