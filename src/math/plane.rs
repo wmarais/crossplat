@@ -29,8 +29,8 @@ impl<T: NumOps, const K: usize> Plane<T, K> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use super::super::Point;
+    use super::*;
 
     fn approx(a: f64, b: f64) -> bool {
         (a - b).abs() < 1e-9
