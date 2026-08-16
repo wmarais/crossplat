@@ -4,8 +4,8 @@ pub use projection_camera::*;
 mod pyramid_frustum;
 pub use pyramid_frustum::*;
 
-use crate::mathematics::linear_algebra;
 use crate::mathematics::geometry;
+use crate::mathematics::linear_algebra;
 
 /// A point in 3D space (vertex).
 pub type Vertex<T> = geometry::Point<T, 4>;
@@ -24,7 +24,3 @@ pub type Sphere<T> = geometry::Circle<T, 3>;
 
 /// A rectangle in 3D space (box).
 pub type Box<T> = geometry::Rectangle<T, 4>;
-
-
-
-

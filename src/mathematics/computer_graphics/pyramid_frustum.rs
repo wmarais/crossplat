@@ -1,5 +1,5 @@
-use crate::mathematics::traits::Number;
 use crate::mathematics::geometry::{Circle, Plane, Ray, Rectangle};
+use crate::mathematics::traits::Number;
 
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
@@ -48,8 +48,6 @@ impl<T: Number, const N: usize> PyramidFrustum<T, N> {
     // }
 
     // pub fn intersect_circle(&self, circle: &Circle<T, N>) -> bool {
-        
+
     // }
-
-
 }

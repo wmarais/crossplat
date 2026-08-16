@@ -1,5 +1,5 @@
-use crate::mathematics::traits::Number;
 use crate::mathematics::geometry::{Point, Ray};
+use crate::mathematics::traits::Number;
 
 /// An axis-aligned N-Dimensional rectangle (bounding box), packed as an array where the
 /// first element is the minimum corner and the second element is the maximum corner.
@@ -49,14 +49,18 @@ impl<T: Number, const N: usize> Rectangle<T, N> {
         let t1 = (min - origin) / dir;
         let t2 = (max - origin) / dir;
 
-        if t1 <= t2 { (t1, t2) } else { (t2, t1) }
+        if t1 <= t2 {
+            (t1, t2)
+        } else {
+            (t2, t1)
+        }
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::mathematics::linear_algebra::Vector;
     use super::*;
+    use crate::mathematics::linear_algebra::Vector;
 
     fn approx(a: f64, b: f64) -> bool {
         (a - b).abs() < 1e-9

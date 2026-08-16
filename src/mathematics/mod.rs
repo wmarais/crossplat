@@ -3,7 +3,6 @@ pub mod geometry;
 pub mod linear_algebra;
 pub mod traits;
 
-
 // mod approx_equal;
 // pub use approx_equal::*;
 

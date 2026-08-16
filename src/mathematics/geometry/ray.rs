@@ -1,6 +1,6 @@
-use crate::mathematics::traits::Number;
 use crate::mathematics::geometry::Point;
 use crate::mathematics::linear_algebra::Vector;
+use crate::mathematics::traits::Number;
 
 #[derive(Debug, Copy, Clone)]
 pub struct Ray<T: Number, const N: usize> {

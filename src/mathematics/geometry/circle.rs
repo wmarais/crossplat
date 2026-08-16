@@ -1,5 +1,5 @@
-use crate::mathematics::traits::Number;
 use crate::mathematics::geometry::{Point, Ray};
+use crate::mathematics::traits::Number;
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct Circle<T: Number, const N: usize> {
@@ -47,8 +47,8 @@ impl<T: Number, const N: usize> Circle<T, N> {
 
 #[cfg(test)]
 mod tests {
-    use crate::mathematics::linear_algebra::Vector;
     use super::*;
+    use crate::mathematics::linear_algebra::Vector;
 
     fn approx(a: f64, b: f64) -> bool {
         (a - b).abs() < 1e-9

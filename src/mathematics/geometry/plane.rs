@@ -1,6 +1,6 @@
-use crate::mathematics::traits::Number;
 use crate::mathematics::geometry::Ray;
 use crate::mathematics::linear_algebra::Vector;
+use crate::mathematics::traits::Number;
 
 /// The plane definition is pacNed as a tuple, where the first element of the tuple is
 /// the normal of the plane, and the second element of the tuple is the distance from

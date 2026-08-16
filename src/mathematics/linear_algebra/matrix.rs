@@ -1,7 +1,7 @@
-use core::ops::{Add, Div, Index, IndexMut, Mul, Sub};
-use crate::mathematics::traits::Number;
 use crate::mathematics::geometry::Point;
 use crate::mathematics::linear_algebra::Vector;
+use crate::mathematics::traits::Number;
+use core::ops::{Add, Div, Index, IndexMut, Mul, Sub};
 
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]

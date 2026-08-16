@@ -1,4 +1,4 @@
-use std::ops::{Add, Div, Mul, Sub};
+use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
 
 use super::ApproxEqual;
 
@@ -7,12 +7,17 @@ pub trait Number:
     + Copy
     + Clone
     + Add<Output = Self>
+    + AddAssign
     + Sub<Output = Self>
+    + SubAssign
     + Mul<Output = Self>
+    + MulAssign
     + Div<Output = Self>
+    + DivAssign
     + PartialEq
     + PartialOrd
     + ApproxEqual
+    + From<f32>
 {
     fn sqrt(&self) -> Self;
     fn sin(&self) -> Self;

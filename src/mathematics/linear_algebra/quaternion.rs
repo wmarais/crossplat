@@ -1,6 +1,6 @@
-use core::ops::{Index, IndexMut, Mul};
-use crate::mathematics::traits::Number;
 use crate::mathematics::linear_algebra::{Matrix, Vector};
+use crate::mathematics::traits::Number;
+use core::ops::{Index, IndexMut, Mul};
 
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
