@@ -1,3 +1,6 @@
+mod approx_equal;
+pub use approx_equal::*;
+
 mod circle;
 pub use circle::*;
 

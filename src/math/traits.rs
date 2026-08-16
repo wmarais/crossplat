@@ -1,5 +1,7 @@
 use std::ops::{Add, Div, Mul, Sub};
 
+use super::ApproxEqual;
+
 pub trait NumOps:
     Sized
     + Copy
@@ -10,6 +12,7 @@ pub trait NumOps:
     + Div<Output = Self>
     + PartialEq
     + PartialOrd
+    + ApproxEqual
 {
     fn sqrt(&self) -> Self;
     fn sin(&self) -> Self;

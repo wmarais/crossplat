@@ -99,7 +99,7 @@ impl<T: NumOps> Quaternion<T> {
 
     pub fn normal(&self) -> Result<Self, ZeroLengthQuaternion> {
         let len = self.length();
-        if len == T::zero() {
+        if len.approx_equal_small(&T::zero()) {
             Err(ZeroLengthQuaternion)
         } else {
             Ok(Self([
@@ -117,7 +117,7 @@ impl<T: NumOps> Quaternion<T> {
             len_sq = len_sq + self[k] * self[k];
         }
 
-        if len_sq == T::zero() {
+        if len_sq.approx_equal_small(&T::zero()) {
             Err(ZeroLengthQuaternion)
         } else {
             let conj = self.conjugate();

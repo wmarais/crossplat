@@ -29,7 +29,7 @@ impl<T: NumOps, const K: usize> Vector<T, K> {
 
     pub fn normal(&self) -> Result<Self, ZeroLengthVector> {
         let len = self.length();
-        if len == T::zero() {
+        if len.approx_equal_small(&T::zero()) {
             Err(ZeroLengthVector)
         } else {
             Ok(*self / len)

@@ -36,7 +36,7 @@ impl<T: NumOps, const K: usize> Circle<T, K> {
         let sqrt_qd = quarter_disc.sqrt();
         let t1 = (T::zero() - half_b - sqrt_qd) / a;
 
-        if quarter_disc == T::zero() {
+        if quarter_disc.approx_equal_small(&T::zero()) {
             (Some(t1), None)
         } else {
             let t2 = (T::zero() - half_b + sqrt_qd) / a;

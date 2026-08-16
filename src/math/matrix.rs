@@ -35,8 +35,8 @@ impl<T: NumOps, const M: usize> Matrix<T, M, M> {
         let mut swaps: usize = 0;
 
         for k in 0..M {
-            if mat[k][k] == T::zero() {
-                match (k + 1..M).find(|&i| mat[i][k] != T::zero()) {
+            if mat[k][k].approx_equal_small(&T::zero()) {
+                match (k + 1..M).find(|&i| !mat[i][k].approx_equal_small(&T::zero())) {
                     Some(i) => {
                         let tmp = mat[k];
                         mat[k] = mat[i];
