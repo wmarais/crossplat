@@ -1,13 +1,12 @@
-use super::NumOps;
-use super::Point;
-use super::Vector;
 use core::ops::{Add, Div, Index, IndexMut, Mul, Sub};
+use crate::mathematics::traits::Number;
+use crate::mathematics::linear_algebra::{Point, Vector};
 
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-pub struct Matrix<T: NumOps, const M: usize, const N: usize>([Vector<T, N>; M]);
+pub struct Matrix<T: Number, const M: usize, const N: usize>([Vector<T, N>; M]);
 
-impl<T: NumOps, const M: usize, const N: usize> Matrix<T, M, N> {
+impl<T: Number, const M: usize, const N: usize> Matrix<T, M, N> {
     pub fn new(rows: [Vector<T, N>; M]) -> Self {
         Self(rows)
     }
@@ -29,7 +28,7 @@ impl<T: NumOps, const M: usize, const N: usize> Matrix<T, M, N> {
     }
 }
 
-impl<T: NumOps, const M: usize> Matrix<T, M, M> {
+impl<T: Number, const M: usize> Matrix<T, M, M> {
     pub fn determinant(&self) -> T {
         let mut mat = *self;
         let mut swaps: usize = 0;
@@ -66,27 +65,27 @@ impl<T: NumOps, const M: usize> Matrix<T, M, M> {
     }
 }
 
-impl<T: NumOps, const M: usize, const N: usize> Index<usize> for Matrix<T, M, N> {
+impl<T: Number, const M: usize, const N: usize> Index<usize> for Matrix<T, M, N> {
     type Output = Vector<T, N>;
     fn index(&self, index: usize) -> &Self::Output {
         &self.0[index]
     }
 }
 
-impl<T: NumOps, const M: usize, const N: usize> IndexMut<usize> for Matrix<T, M, N> {
+impl<T: Number, const M: usize, const N: usize> IndexMut<usize> for Matrix<T, M, N> {
     fn index_mut(&mut self, index: usize) -> &mut Self::Output {
         &mut self.0[index]
     }
 }
 
-impl<T: NumOps, const M: usize, const N: usize> Mul<T> for Matrix<T, M, N> {
+impl<T: Number, const M: usize, const N: usize> Mul<T> for Matrix<T, M, N> {
     type Output = Self;
     fn mul(self, rhs: T) -> Self::Output {
         Self(core::array::from_fn(|m| self[m] * rhs))
     }
 }
 
-impl<T: NumOps, const M: usize, const N: usize> Mul<Vector<T, N>> for Matrix<T, M, N> {
+impl<T: Number, const M: usize, const N: usize> Mul<Vector<T, N>> for Matrix<T, M, N> {
     type Output = Vector<T, M>;
     fn mul(self, rhs: Vector<T, N>) -> Self::Output {
         let mut result = Self::Output::new([T::zero(); M]);
@@ -97,7 +96,7 @@ impl<T: NumOps, const M: usize, const N: usize> Mul<Vector<T, N>> for Matrix<T, 
     }
 }
 
-impl<T: NumOps, const M: usize, const N: usize> Mul<Point<T, N>> for Matrix<T, M, N> {
+impl<T: Number, const M: usize, const N: usize> Mul<Point<T, N>> for Matrix<T, M, N> {
     type Output = Point<T, M>;
     fn mul(self, rhs: Point<T, N>) -> Self::Output {
         let mut result = Self::Output::new([T::zero(); M]);
@@ -109,7 +108,7 @@ impl<T: NumOps, const M: usize, const N: usize> Mul<Point<T, N>> for Matrix<T, M
     }
 }
 
-impl<T: NumOps, const M: usize, const N: usize, const P: usize> Mul<Matrix<T, N, P>>
+impl<T: Number, const M: usize, const N: usize, const P: usize> Mul<Matrix<T, N, P>>
     for Matrix<T, M, N>
 {
     type Output = Matrix<T, M, P>;
@@ -126,21 +125,21 @@ impl<T: NumOps, const M: usize, const N: usize, const P: usize> Mul<Matrix<T, N,
     }
 }
 
-impl<T: NumOps, const M: usize, const N: usize> Div<T> for Matrix<T, M, N> {
+impl<T: Number, const M: usize, const N: usize> Div<T> for Matrix<T, M, N> {
     type Output = Self;
     fn div(self, rhs: T) -> Self::Output {
         Self(core::array::from_fn(|m| self[m] / rhs))
     }
 }
 
-impl<T: NumOps, const M: usize, const N: usize> Add<Matrix<T, M, N>> for Matrix<T, M, N> {
+impl<T: Number, const M: usize, const N: usize> Add<Matrix<T, M, N>> for Matrix<T, M, N> {
     type Output = Self;
     fn add(self, rhs: Matrix<T, M, N>) -> Self::Output {
         Self(core::array::from_fn(|m| self[m] + rhs[m]))
     }
 }
 
-impl<T: NumOps, const M: usize, const N: usize> Sub<Matrix<T, M, N>> for Matrix<T, M, N> {
+impl<T: Number, const M: usize, const N: usize> Sub<Matrix<T, M, N>> for Matrix<T, M, N> {
     type Output = Self;
     fn sub(self, rhs: Matrix<T, M, N>) -> Self::Output {
         Self(core::array::from_fn(|m| self[m] - rhs[m]))

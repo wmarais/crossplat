@@ -2,7 +2,7 @@ use std::ops::{Add, Div, Mul, Sub};
 
 use super::ApproxEqual;
 
-pub trait NumOps:
+pub trait Number:
     Sized
     + Copy
     + Clone
@@ -21,7 +21,7 @@ pub trait NumOps:
     fn one() -> Self;
 }
 
-impl NumOps for f32 {
+impl Number for f32 {
     fn sqrt(&self) -> Self {
         f32::sqrt(*self)
     }
@@ -43,7 +43,7 @@ impl NumOps for f32 {
     }
 }
 
-impl NumOps for f64 {
+impl Number for f64 {
     fn sqrt(&self) -> Self {
         f64::sqrt(*self)
     }

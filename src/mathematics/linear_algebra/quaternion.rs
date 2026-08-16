@@ -1,16 +1,15 @@
-use super::Matrix;
-use super::NumOps;
-use super::Vector;
 use core::ops::{Index, IndexMut, Mul};
+use crate::mathematics::traits::Number;
+use crate::mathematics::linear_algebra::{Matrix, Vector};
 
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-pub struct Quaternion<T: NumOps>([T; 4]);
+pub struct Quaternion<T: Number>([T; 4]);
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct ZeroLengthQuaternion;
 
-impl<T: NumOps> Quaternion<T> {
+impl<T: Number> Quaternion<T> {
     // Storage order is (x, y, z, w). Angles are radians; x = roll, y = pitch,
     // z = yaw, combined in that order (intrinsic Z-Y-X / yaw-pitch-roll).
     pub fn from_euler(x: T, y: T, z: T) -> Self {
@@ -131,20 +130,20 @@ impl<T: NumOps> Quaternion<T> {
     }
 }
 
-impl<T: NumOps> Index<usize> for Quaternion<T> {
+impl<T: Number> Index<usize> for Quaternion<T> {
     type Output = T;
     fn index(&self, index: usize) -> &Self::Output {
         &self.0[index]
     }
 }
 
-impl<T: NumOps> IndexMut<usize> for Quaternion<T> {
+impl<T: Number> IndexMut<usize> for Quaternion<T> {
     fn index_mut(&mut self, index: usize) -> &mut Self::Output {
         &mut self.0[index]
     }
 }
 
-impl<T: NumOps> Mul<Quaternion<T>> for Quaternion<T> {
+impl<T: Number> Mul<Quaternion<T>> for Quaternion<T> {
     type Output = Self;
     fn mul(self, rhs: Quaternion<T>) -> Self::Output {
         let (x1, y1, z1, w1) = (self[0], self[1], self[2], self[3]);

@@ -1,14 +1,13 @@
-use super::NumOps;
-use super::Point;
-use super::Vector;
+use crate::mathematics::traits::Number;
+use crate::mathematics::linear_algebra::{Point, Vector};
 
 #[derive(Debug, Copy, Clone)]
-pub struct Ray<T: NumOps, const K: usize> {
+pub struct Ray<T: Number, const K: usize> {
     origin: Point<T, K>,
     direction: Vector<T, K>,
 }
 
-impl<T: NumOps, const K: usize> Ray<T, K> {
+impl<T: Number, const K: usize> Ray<T, K> {
     pub fn new(origin: Point<T, K>, direction: Vector<T, K>) -> Self {
         Self { origin, direction }
     }

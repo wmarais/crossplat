@@ -1,13 +1,14 @@
-use super::{NumOps, Ray, Vector};
+use crate::mathematics::traits::Number;
+use crate::mathematics::linear_algebra::{Ray, Vector};
 
 /// The plane definition is packed as a tuple, where the first element of the tuple is
 /// the normal of the plane, and the second element of the tuple is the distance from
 /// the origin.
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-pub struct Plane<T: NumOps, const K: usize>((Vector<T, K>, T));
+pub struct Plane<T: Number, const K: usize>((Vector<T, K>, T));
 
-impl<T: NumOps, const K: usize> Plane<T, K> {
+impl<T: Number, const K: usize> Plane<T, K> {
     /// Calculate where a ray intersects the plane. The function returns either:
     /// `Some(T)` if there is a single point of intersection. If the value is negative, it
     /// is behind the start of the ray, and if the value is positive, it is in front of the

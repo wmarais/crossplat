@@ -1,16 +1,16 @@
 use core::ops::{Add, Div, Index, IndexMut, Mul, Sub};
 
-use super::NumOps;
-use super::Point;
+use crate::mathematics::traits::Number;
+use crate::mathematics::linear_algebra::Point;
 
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-pub struct Vector<T: NumOps, const K: usize>([T; K]);
+pub struct Vector<T: Number, const K: usize>([T; K]);
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct ZeroLengthVector;
 
-impl<T: NumOps, const K: usize> Vector<T, K> {
+impl<T: Number, const K: usize> Vector<T, K> {
     pub fn new(values: [T; K]) -> Self {
         Self(values)
     }
@@ -45,7 +45,17 @@ impl<T: NumOps, const K: usize> Vector<T, K> {
     }
 }
 
-impl<T: NumOps, const K: usize> From<Point<T, K>> for Vector<T, K> {
+impl<T: Number> Vector<T, 3> {
+    pub fn cross(&self, rhs: &Vector<T, 3>) -> Self {
+        Self::new([
+            self[1] * rhs[2] - self[2] * rhs[1],
+            self[2] * rhs[0] - self[0] * rhs[2],
+            self[0] * rhs[1] - self[1] * rhs[0],
+        ])
+    }
+}
+
+impl<T: Number, const K: usize> From<Point<T, K>> for Vector<T, K> {
     fn from(value: Point<T, K>) -> Self {
         let mut result = Vector::new([T::zero(); K]);
         for k in 0..K {
@@ -55,41 +65,41 @@ impl<T: NumOps, const K: usize> From<Point<T, K>> for Vector<T, K> {
     }
 }
 
-impl<T: NumOps, const K: usize> Index<usize> for Vector<T, K> {
+impl<T: Number, const K: usize> Index<usize> for Vector<T, K> {
     type Output = T;
     fn index(&self, index: usize) -> &Self::Output {
         &self.0[index]
     }
 }
 
-impl<T: NumOps, const K: usize> IndexMut<usize> for Vector<T, K> {
+impl<T: Number, const K: usize> IndexMut<usize> for Vector<T, K> {
     fn index_mut(&mut self, index: usize) -> &mut Self::Output {
         &mut self.0[index]
     }
 }
 
-impl<T: NumOps, const K: usize> Add<Vector<T, K>> for Vector<T, K> {
+impl<T: Number, const K: usize> Add<Vector<T, K>> for Vector<T, K> {
     type Output = Self;
     fn add(self, rhs: Self) -> Self::Output {
         Self(core::array::from_fn(|i| self[i] + rhs[i]))
     }
 }
 
-impl<T: NumOps, const K: usize> Sub<Vector<T, K>> for Vector<T, K> {
+impl<T: Number, const K: usize> Sub<Vector<T, K>> for Vector<T, K> {
     type Output = Self;
     fn sub(self, rhs: Self) -> Self::Output {
         Self(core::array::from_fn(|i| self[i] - rhs[i]))
     }
 }
 
-impl<T: NumOps, const K: usize> Mul<T> for Vector<T, K> {
+impl<T: Number, const K: usize> Mul<T> for Vector<T, K> {
     type Output = Self;
     fn mul(self, rhs: T) -> Self::Output {
         Self(core::array::from_fn(|i| self[i] * rhs))
     }
 }
 
-impl<T: NumOps, const K: usize> Div<T> for Vector<T, K> {
+impl<T: Number, const K: usize> Div<T> for Vector<T, K> {
     type Output = Self;
     fn div(self, rhs: T) -> Self::Output {
         Self(core::array::from_fn(|i| self[i] / rhs))
@@ -165,6 +175,29 @@ mod tests {
         let a = Vector::new([1.0, 0.0]);
         let b = Vector::new([0.0, 1.0]);
         assert_eq!(a.dot(&b), 0.0);
+    }
+
+    #[test]
+    fn cross_product_of_unit_axes_matches_known_value() {
+        let x = Vector::new([1.0, 0.0, 0.0]);
+        let y = Vector::new([0.0, 1.0, 0.0]);
+        assert_eq!(x.cross(&y), Vector::new([0.0, 0.0, 1.0]));
+    }
+
+    #[test]
+    fn cross_product_is_orthogonal_to_both_inputs() {
+        let a = Vector::new([2.0, 3.0, 4.0]);
+        let b = Vector::new([5.0, 6.0, 7.0]);
+        let c = a.cross(&b);
+        assert!(approx(c.dot(&a), 0.0));
+        assert!(approx(c.dot(&b), 0.0));
+    }
+
+    #[test]
+    fn cross_product_of_parallel_vectors_is_zero() {
+        let a = Vector::new([1.0, 2.0, 3.0]);
+        let b = Vector::new([2.0, 4.0, 6.0]);
+        assert_eq!(a.cross(&b), Vector::zero());
     }
 
     #[test]

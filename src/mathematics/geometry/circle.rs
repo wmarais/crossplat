@@ -1,13 +1,13 @@
-use super::NumOps;
-use super::{Point, Ray};
+use crate::mathematics::traits::Number;
+use crate::mathematics::linear_algebra::{Point, Ray};
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-pub struct Circle<T: NumOps, const K: usize> {
+pub struct Circle<T: Number, const K: usize> {
     centre: Point<T, K>,
     radius: T,
 }
 
-impl<T: NumOps, const K: usize> Circle<T, K> {
+impl<T: Number, const K: usize> Circle<T, K> {
     /// Collision detection function between a ray and a circle.
     /// Calculate the intersection of a N-Dimensional Ray with an N-Dimensional circle. The
     /// function returns either:
@@ -47,7 +47,7 @@ impl<T: NumOps, const K: usize> Circle<T, K> {
 
 #[cfg(test)]
 mod tests {
-    use super::super::Vector;
+    use crate::mathematics::linear_algebra::Vector;
     use super::*;
 
     fn approx(a: f64, b: f64) -> bool {

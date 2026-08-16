@@ -1,60 +1,60 @@
 use core::ops::{Add, Div, Index, IndexMut, Mul, Sub};
 
-use super::NumOps;
-use super::Vector;
+use crate::mathematics::traits::Number;
+use crate::mathematics::linear_algebra::Vector;
 
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-pub struct Point<T: NumOps, const N: usize>([T; N]);
+pub struct Point<T: Number, const N: usize>([T; N]);
 
-impl<T: NumOps, const N: usize> Point<T, N> {
+impl<T: Number, const N: usize> Point<T, N> {
     pub fn new(values: [T; N]) -> Self {
         Self(values)
     }
 }
 
-impl<T: NumOps, const N: usize> Index<usize> for Point<T, N> {
+impl<T: Number, const N: usize> Index<usize> for Point<T, N> {
     type Output = T;
     fn index(&self, index: usize) -> &Self::Output {
         &self.0[index]
     }
 }
 
-impl<T: NumOps, const N: usize> IndexMut<usize> for Point<T, N> {
+impl<T: Number, const N: usize> IndexMut<usize> for Point<T, N> {
     fn index_mut(&mut self, index: usize) -> &mut Self::Output {
         &mut self.0[index]
     }
 }
 
-impl<T: NumOps, const N: usize> Add<Vector<T, N>> for Point<T, N> {
+impl<T: Number, const N: usize> Add<Vector<T, N>> for Point<T, N> {
     type Output = Self;
     fn add(self, rhs: Vector<T, N>) -> Self::Output {
         Self(core::array::from_fn(|i| self[i] + rhs[i]))
     }
 }
 
-impl<T: NumOps, const N: usize> Sub<Vector<T, N>> for Point<T, N> {
+impl<T: Number, const N: usize> Sub<Vector<T, N>> for Point<T, N> {
     type Output = Self;
     fn sub(self, rhs: Vector<T, N>) -> Self::Output {
         Self(core::array::from_fn(|i| self[i] - rhs[i]))
     }
 }
 
-impl<T: NumOps, const N: usize> Sub<Point<T, N>> for Point<T, N> {
+impl<T: Number, const N: usize> Sub<Point<T, N>> for Point<T, N> {
     type Output = Vector<T, N>;
     fn sub(self, rhs: Point<T, N>) -> Self::Output {
         Vector::new(core::array::from_fn(|i| self[i] - rhs[i]))
     }
 }
 
-impl<T: NumOps, const N: usize> Mul<T> for Point<T, N> {
+impl<T: Number, const N: usize> Mul<T> for Point<T, N> {
     type Output = Self;
     fn mul(self, rhs: T) -> Self::Output {
         Self(core::array::from_fn(|i| self[i] * rhs))
     }
 }
 
-impl<T: NumOps, const N: usize> Div<T> for Point<T, N> {
+impl<T: Number, const N: usize> Div<T> for Point<T, N> {
     type Output = Self;
     fn div(self, rhs: T) -> Self::Output {
         Self(core::array::from_fn(|i| self[i] / rhs))
